@@ -28,9 +28,9 @@ class Chill_Database extends Chill_Base
 	{
 		$success = $this->get("");
 		if (isset($success->body->error)) {
-			throw new ConnectionException("CouchDB Database Error: " . $success->body->reason);
+			throw new Chill_ConnectionException("CouchDB Database Error: " . $success->body->reason);
 		} elseif ($success == false) {
-			throw new ConnectionException("Could not connect to Database: $this->name");
+			throw new Chill_ConnectionException("Could not connect to Database: $this->name");
 		}
 	}
 

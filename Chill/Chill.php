@@ -60,7 +60,7 @@ class Chill extends Chill_Base
 	private function _handshake()
 	{
 		$success = $this->get("");
-		if (!$success->body->couchdb) throw new ConnectionException("Cannot connect to Database at $this->host");
+		if (!$success->body->couchdb) throw new Chill_ConnectionException("Cannot connect to Database at $this->host");
 	}
 
 	/**
