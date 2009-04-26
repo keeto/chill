@@ -1,5 +1,5 @@
 Chill
-======
+=====
 Chill is a simple CouchDB REST client written in PHP that aims to provide an easy way to access CouchDB databases.
 
 Requirements
@@ -39,9 +39,11 @@ Basic Usage
 	$myDoc->content = "hi universe!";
 	$myDoc->save();
 
-Issues?
-=======
+Issues & Updates
+================
 If you have any issues or if you run into problems, be sure to report them via the Issues tab at the official Chill Github repo: http://github.com/keeto/chill/issues/
+
+You can also follow me on twitter for news and updates regarding Chill: http://twitter.com/keeto
 
 License & Copyright
 ===================
