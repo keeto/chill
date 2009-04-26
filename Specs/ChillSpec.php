@@ -20,7 +20,7 @@ class DescribeChill extends SpecBase
 	{
 		try {
 			new Chill($this->wrongHost);
-		} catch (ConnectionException $e) {
+		} catch (Chill_ConnectionException $e) {
 			$this->spec($e)->should->beAnInstanceOf('Chill_ConnectionException');
 		}
 	}
