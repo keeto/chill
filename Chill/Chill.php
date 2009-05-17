@@ -34,14 +34,14 @@ class Chill extends Chill_Base
 	 * (array) store for Chill::getUuid()
 	 */
 
-	static $UUIDS;
+	public static $UUIDS;
 
 	/**
 	 * (ChillReader) stores main Chill_Reader instance.
 	 */
 
 	static $Reader;
-
+  public static $H;
 	/**
 	 * @param $host - (string) The CouchDB host server.
 	 */
@@ -50,6 +50,7 @@ class Chill extends Chill_Base
 	{
 		parent::__construct();
 		$this->host = rtrim($host, '/') . '/';
+    self::$H = $this->host;
 		$this->_handshake();
 	}
 
@@ -68,7 +69,9 @@ class Chill extends Chill_Base
 	 *
 	 * @return an array of names of available database.
 	 */
-
+  public function getHost() {
+    return Chill::$H;
+  }
 	public function listDbs()
 	{
 		$response = $this->get("_all_dbs");
@@ -133,9 +136,11 @@ class Chill extends Chill_Base
 	static function getUuid()
 	{
 		if (empty(Chill::$UUIDS)) {
-			$response = Chill::$Reader->get("_uuids", array("count" => 5));
+			$response = Chill::$Reader->get(Chill::$H,"_uuids", array(),array("count" => "20"));
+      var_dump($response->body);
 			Chill::$UUIDS = $response->body->uuids;
 		}
+    var_dump(Chill::$UUIDS);
 		return array_shift(Chill::$UUIDS);
 	}
 

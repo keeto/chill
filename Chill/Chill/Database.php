@@ -30,10 +30,32 @@ class Chill_Database extends Chill_Base
 		if (isset($success->body->error)) {
 			throw new Chill_ConnectionException("CouchDB Database Error: " . $success->body->reason);
 		} elseif ($success == false) {
-			throw new Chill_ConnectionException("Could not connect to Database: $this->name");
+			throw new Chill_ConnectionException("Could not connect to Database:". $this->name);
 		}
 	}
-
+  public function getDocumentCollection($filter=array(),$count=0) {
+    $r = $this->getAllDocs(array('include_docs'=>true),true);
+    $coll = array();
+    
+    $count = (int) $count;
+    $rows = (int) count($r->rows);
+    //var_dump($count,$rows);
+    $num = ($count > 0)?$count:$rows;
+    if($rows < $num){ $num = $rows; }
+    for($idx=0;$idx< $num; $idx++) { 
+      if(count($filter) > 0){
+      //var_dump($key,$value);
+      $filt = explode(':',$filter[0]);
+      $key = $filt[0];
+      $value = $filt[1];
+      $tmp = $r->rows[$idx]->doc->toArray();
+      if(array_key_exists($key,$tmp)) { array_push($coll,$r->rows[$idx]->doc); }
+      } else {
+      array_push($coll,$r->rows[$idx]->doc);
+      }
+    }
+    return new Chill_Documents($this, $coll);
+  }
 	public function getAllDocs($opts = array(), $asDocs = false)
 	{
 		$response = $this->get("_all_docs", $opts);

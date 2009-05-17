@@ -147,9 +147,11 @@ class Chill_Document extends Chill_Base
 		$data = array();
 		if (isset($this->_id)) $data["_id"] = $this->_id;
 		if (isset($this->_rev)) $data["_rev"] = $this->_rev;
+    if(!empty($this->_data)) {
 		foreach ($this->_data as $key => $value) {
 			$data[$key] = $value;
 		}
+    }
 		return $data;
 	}
 

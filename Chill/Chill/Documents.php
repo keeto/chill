@@ -65,9 +65,10 @@ class Chill_Documents extends Chill_Base implements Iterator, Countable
 		return !in_array($doc, $current);
 	}
 
-	public function removeDoc()
+	public function removeDoc($index)
 	{
-		# How? o_O
+	    $this->getDoc($index);
+      return true;
 	}
 
 	public function getDoc($index)
@@ -170,8 +171,11 @@ class Chill_Documents extends Chill_Base implements Iterator, Countable
 	{
 		$buf = array();
 		foreach ($this->_docs as $doc) {
-			if (get_class($doc) == "Chill_Document") $doc = $doc->toArray();
-			$buf[] = $doc;
+			if (get_class($doc) == "Chill_Document") {
+       $doc->save();
+       $doc = $doc->toArray();
+			 $buf[] = $doc;
+      } else {}
 		}
 		return json_encode($buf);
 	}

@@ -43,6 +43,7 @@ class Chill_Reader {
 
 	public function get($base, $uri, $opts = array(), $data = "")
 	{
+    //var_dump($base,$uri,$opts,$data);
 		return $this->request($base, "GET", $uri, $opts, $data);
 	}
 
