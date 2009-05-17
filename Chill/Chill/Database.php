@@ -39,17 +39,14 @@ class Chill_Database extends Chill_Base
     
     $count = (int) $count;
     $rows = (int) count($r->rows);
-    //var_dump($count,$rows);
     $num = ($count > 0)?$count:$rows;
     if($rows < $num){ $num = $rows; }
     for($idx=0;$idx< $num; $idx++) { 
       if(count($filter) > 0){
-      //var_dump($key,$value);
       $filt = explode(':',$filter[0]);
       $key = $filt[0];
       $value = $filt[1];
       $tmp = $r->rows[$idx]->doc->toArray();
-      //var_dump($tmp);
       if(array_key_exists($key,$tmp) && $value == $tmp[$key]) { array_push($coll,$r->rows[$idx]->doc); }
       } else {
       array_push($coll,$r->rows[$idx]->doc);

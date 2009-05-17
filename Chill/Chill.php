@@ -137,10 +137,8 @@ class Chill extends Chill_Base
 	{
 		if (empty(Chill::$UUIDS)) {
 			$response = Chill::$Reader->get(Chill::$H,"_uuids", array(),array("count" => "20"));
-      var_dump($response->body);
 			Chill::$UUIDS = $response->body->uuids;
 		}
-    var_dump(Chill::$UUIDS);
 		return array_shift(Chill::$UUIDS);
 	}
 
