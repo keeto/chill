@@ -49,7 +49,8 @@ class Chill_Database extends Chill_Base
       $key = $filt[0];
       $value = $filt[1];
       $tmp = $r->rows[$idx]->doc->toArray();
-      if(array_key_exists($key,$tmp)) { array_push($coll,$r->rows[$idx]->doc); }
+      //var_dump($tmp);
+      if(array_key_exists($key,$tmp) && $value == $tmp[$key]) { array_push($coll,$r->rows[$idx]->doc); }
       } else {
       array_push($coll,$r->rows[$idx]->doc);
       }
