@@ -33,23 +33,22 @@ class Chill_Database extends Chill_Base
 			throw new Chill_ConnectionException("Could not connect to Database:". $this->name);
 		}
 	}
-  public function getDocumentCollection($filter=array(),$count=0) {
+  public function getDocumentCollection($filter=false,$count=0) {
     $r = $this->getAllDocs(array('include_docs'=>true),true);
     $coll = array();
-    
     $count = (int) $count;
     $rows = (int) count($r->rows);
     $num = ($count > 0)?$count:$rows;
-    if($rows < $num){ $num = $rows; }
-    for($idx=0;$idx< $num; $idx++) { 
-      if(count($filter) > 0){
-      $filt = explode(':',$filter[0]);
-      $key = $filt[0];
-      $value = $filt[1];
-      $tmp = $r->rows[$idx]->doc->toArray();
-      if(array_key_exists($key,$tmp) && $value == $tmp[$key]) { array_push($coll,$r->rows[$idx]->doc); }
+    if($count > $rows){ $num = $rows-1; }
+    for($idx=0;$idx<= $num; $idx++) { 
+      if(!$filter){
+        array_push($coll,$r->rows[$idx]->doc);
       } else {
-      array_push($coll,$r->rows[$idx]->doc);
+          $filt = explode(':',$filter);
+          $key = $filt[0];
+          $value = $filt[1];
+          $tmp = $r->rows[$idx]->doc->toArray();
+          if(array_key_exists($key,$tmp) && $value == $tmp[$key]) { array_push($coll, $r->rows[$idx]->doc); }
       }
     }
     return new Chill_Documents($this, $coll);
