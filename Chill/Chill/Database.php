@@ -42,13 +42,15 @@ class Chill_Database extends Chill_Base
     if($count > $rows){ $num = $rows-1; }
     for($idx=0;$idx<= $num; $idx++) { 
       if(!$filter){
-        array_push($coll,$r->rows[$idx]->doc);
+        $tmp = (is_object($r->rows[$idx]->doc))?true:false;
+        if($tmp) array_push($coll,$r->rows[$idx]->doc);
+        $tmp = false;
       } else {
           $filt = explode(':',$filter);
           $key = $filt[0];
           $value = $filt[1];
-          $tmp = $r->rows[$idx]->doc->toArray();
-          if(array_key_exists($key,$tmp) && $value == $tmp[$key]) { array_push($coll, $r->rows[$idx]->doc); }
+          $tmp = (is_object($r->rows[$idx]->doc))?$r->rows[$idx]->doc->toArray():false;
+          if($tmp && array_key_exists($key,$tmp) && $value == $tmp[$key]) { array_push($coll, $r->rows[$idx]->doc); }
       }
     }
     return new Chill_Documents($this, $coll);
