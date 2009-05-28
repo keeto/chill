@@ -181,7 +181,10 @@ class Chill_Documents extends Chill_Base implements Iterator, Countable
 	}
 
 	# Iterator functions.
-
+    public function getClean() {
+        unset($this->currentDoc);
+        return $this->_docs;
+    }
 	public function rewind()
 	{
 		$this->next();
