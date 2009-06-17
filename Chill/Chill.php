@@ -132,6 +132,15 @@ class Chill extends Chill_Base
 	 *
 	 * @return a UUID string.
 	 */
+    public static function createUuid() {
+        $randstr = md5(uniqid(mt_rand(), true));
+        $uuid = substr($randstr,0,9);
+        $uuid .= substr($randstr,8,5);
+        $uuid .= substr($randstr,12,5);
+        $uuid .= substr($randstr,16,5);
+        $uuid .= substr($randstr,20,12);
+        return $uuid;
+    }
 
 	static function getUuid()
 	{
@@ -139,6 +148,14 @@ class Chill extends Chill_Base
 			$response = Chill::$Reader->get(Chill::$H,"_uuids", array(),array("count" => "20"));
 			Chill::$UUIDS = $response->body->uuids;
 		}
+		if (empty(Chill::$UUIDS)) {
+			$uuidarr = array();
+			for($i = 0; $i<21; $i++) {
+				array_push($uuidarr,Chill::createUuid());
+			}
+			Chill::$UUIDS = $uuidarr;
+		}
+		//var_dump(Chill::$UUIDS);
 		return array_shift(Chill::$UUIDS);
 	}
 
